@@ -1,0 +1,44 @@
+.navbar-custom {
+  /* This is a pink color similar to the image. You can adjust it. */
+  background-color: #ff6384;
+  color: white; /* Sets the text color to white */
+}
+
+/* Ensure all text and icons in navbar are white */
+.navbar-custom mat-icon,
+.navbar-custom span,
+.navbar-custom button {
+  color: white !important;
+}
+
+/* Specific styling for navbar buttons */
+.navbar-custom button mat-icon {
+  color: white !important;
+}
+
+/* Active route styling */
+.navbar-custom .active-route {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
+}
+
+/* Hover effect for buttons */
+.navbar-custom button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 4px;
+}
+
+.spacer {
+  /* This flex property pushes the items to the sides */
+  flex: 1 1 auto;
+}
+
+.navbar-brand {
+  font-size: 1.2rem;
+}
+
+.navbar-brand mat-icon {
+  /* Vertically align the icon with the text */
+  vertical-align: middle;
+  margin-right: 8px;
+}

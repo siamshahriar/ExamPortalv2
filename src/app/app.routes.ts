@@ -8,6 +8,10 @@ import { adminGuard } from './services/admin.guard';
 import { userGuard } from './services/user.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { WelcomeComponent } from './pages/admin/welcome/welcome.component';
+import { ViewCategoriesComponent } from './pages/admin/view-categories/view-categories.component';
+import { AddCategoriesComponent } from './pages/admin/add-categories/add-categories.component';
+import { ViewQuizzesComponent } from './pages/admin/view-quizzes/view-quizzes.component';
+import { AddQuizComponent } from './pages/admin/add-quiz/add-quiz.component';
 
 export const routes: Routes = [
     {
@@ -38,6 +42,22 @@ export const routes: Routes = [
             {
                 path: "profile",
                 component: ProfileComponent,
+            },
+            {
+                path: "categories",
+                component: ViewCategoriesComponent
+            },
+            {
+                path: "add-category",
+                component: AddCategoriesComponent
+            },
+            {
+                path: "quizzes",
+                component: ViewQuizzesComponent
+            },
+            {
+                path: "add-quiz",
+                component: AddQuizComponent
             }
         ]
 

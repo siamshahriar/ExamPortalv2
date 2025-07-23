@@ -19,5 +19,38 @@ export class QuizService {
     return this._http.post(`${baseUrl}/quiz/`, quiz);
   }
 
+  //delete quiz
+  public deleteQuiz(qId: number) {
+    return this._http.delete(`${baseUrl}/quiz/${qId}`);
+  }
+
+  //get single quiz
+  public getQuiz(qId: number) {
+    return this._http.get(`${baseUrl}/quiz/${qId}`);
+  }
+
+  //update quiz
+  public updateQuiz(quiz: any) {
+    return this._http.put(`${baseUrl}/quiz/`, quiz);
+  }
+
+  //get quizzes of category
+  public getQuizzesOfCategory(catId: number) {
+    return this._http.get(`${baseUrl}/quiz/category/${catId}`);
+  }
+
+  //get active quizzes
+  public getActiveQuizzes() {
+    return this._http.get(`${baseUrl}/quiz/active`);
+  }
+
+  //get active quizzes of category
+  public getActiveQuizzesOfCategory(catId: number) {
+    return this._http.get(`${baseUrl}/quiz/category/active/${catId}`);
+  }
+
+
+
+
 
 }

@@ -22,7 +22,7 @@
 
   <!-- Show Logout button only when user IS logged in -->
   <ng-container *ngIf="isLoggedIn">
-    <button routerLink="/admin/profile" mat-button>
+    <button [routerLink]="getProfileRoute()" mat-button>
       <mat-icon>person</mat-icon>
       {{ currentUser?.username || "User" }}
     </button>

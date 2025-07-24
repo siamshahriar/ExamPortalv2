@@ -1,0 +1,219 @@
+<div class="instructions-container">
+  <!-- Loading State -->
+  <div *ngIf="!quiz" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p class="loading-text">Loading quiz instructions...</p>
+  </div>
+
+  <!-- Instructions Content -->
+  <div *ngIf="quiz" class="instructions-content">
+    <!-- Header Section -->
+    <mat-card class="header-card">
+      <mat-card-content>
+        <div class="header-section">
+          <h1 class="main-title">
+            <mat-icon class="title-icon">assignment</mat-icon>
+            Read the instructions of this page carefully
+          </h1>
+          <h2 class="sub-title">
+            <mat-icon class="step-icon">arrow_forward</mat-icon>
+            One step more to go
+          </h2>
+
+          <!-- Quiz Title -->
+          <div class="quiz-title-section">
+            <h3 class="quiz-title">{{ quiz.title }}</h3>
+            <mat-chip-set>
+              <mat-chip class="category-chip">
+                <mat-icon matChipAvatar>category</mat-icon>
+                {{ quiz.category.title }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Quiz Description -->
+    <mat-card class="description-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>info</mat-icon>
+          Description
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="quiz-description">{{ quiz.description }}</p>
+        <p class="category-description">{{ quiz.category.description }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Important Instructions -->
+    <mat-card class="instructions-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="warning-icon">warning</mat-icon>
+          Important Instructions
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon>info</mat-icon>
+            <div matListItemTitle>This quiz is only for practice purpose.</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>timer</mat-icon>
+            <div matListItemTitle>
+              You have to submit quiz within 20 Minutes.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>refresh</mat-icon>
+            <div matListItemTitle>
+              You can attempt the quiz any number of times.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>quiz</mat-icon>
+            <div matListItemTitle>
+              There are {{ quiz.numberOfQuestions }} questions in this quiz.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>grade</mat-icon>
+            <div matListItemTitle>
+              Each question carries
+              {{ quiz.maxMarks / quiz.numberOfQuestions }} marks. No negative
+              marking for wrong ones.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>radio_button_checked</mat-icon>
+            <div matListItemTitle>All questions are of MCQ Types.</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Attempting Quiz Instructions -->
+    <mat-card class="attempt-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="play-icon">play_circle</mat-icon>
+          Attempting Quiz
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon>play_arrow</mat-icon>
+            <div matListItemTitle>
+              Click Start Quiz button to start the quiz.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>schedule</mat-icon>
+            <div matListItemTitle>
+              The timer will start the moment you click the Start Test button.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>warning</mat-icon>
+            <div matListItemTitle>
+              You cannot resume this quiz, if interrupted due to any reason.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>keyboard_arrow_down</mat-icon>
+            <div matListItemTitle>
+              Scroll down to move to the next question.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>send</mat-icon>
+            <div matListItemTitle>
+              Click on Submit Quiz button on completion of the quiz.
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>description</mat-icon>
+            <div matListItemTitle>
+              Report of the test is automatically generated in the form of PDF
+              copy.
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Quiz Stats Summary -->
+    <mat-card class="stats-card">
+      <mat-card-content>
+        <div class="quiz-stats-summary">
+          <div class="stat-box">
+            <mat-icon class="stat-icon">quiz</mat-icon>
+            <span class="stat-number">{{ quiz.numberOfQuestions }}</span>
+            <span class="stat-label">Questions</span>
+          </div>
+
+          <div class="stat-box">
+            <mat-icon class="stat-icon">grade</mat-icon>
+            <span class="stat-number">{{ quiz.maxMarks }}</span>
+            <span class="stat-label">Total Marks</span>
+          </div>
+
+          <div class="stat-box">
+            <mat-icon class="stat-icon">timer</mat-icon>
+            <span class="stat-number">20</span>
+            <span class="stat-label">Minutes</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Start Quiz Button -->
+    <div class="start-quiz-section">
+      <button
+        mat-raised-button
+        color="primary"
+        class="start-quiz-btn"
+        (click)="startQuiz()"
+        [disabled]="!quiz.active"
+      >
+        <mat-icon>rocket_launch</mat-icon>
+        {{ quiz.active ? "Start Quiz" : "Quiz Not Available" }}
+      </button>
+
+      <p class="start-note" *ngIf="quiz.active">
+        <mat-icon>info</mat-icon>
+        Once you start, the timer will begin immediately!
+      </p>
+
+      <p class="inactive-note" *ngIf="!quiz.active">
+        <mat-icon>block</mat-icon>
+        This quiz is currently inactive. Please contact your instructor.
+      </p>
+    </div>
+  </div>
+</div>

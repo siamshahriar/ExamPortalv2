@@ -1,0 +1,220 @@
+<div class="exam-container" *ngIf="questions && questions.length > 0">
+  <!-- ss -->
+  <div class="exam-layout">
+    <!-- Left Content Area -->
+    <div class="exam-content">
+      <!-- Quiz Header -->
+      <div class="quiz-header">
+        <h2>{{ questions[0].quiz.title }}</h2>
+        <p class="quiz-description">{{ questions[0].quiz.description }}</p>
+        <div class="quiz-info">
+          <span class="info-item">
+            <i class="fas fa-question-circle"></i>
+            Total Questions: {{ questions.length }}
+          </span>
+          <span class="info-item">
+            <i class="fas fa-star"></i>
+            Max Marks: {{ questions[0].quiz.maxMarks }}
+          </span>
+          <span class="info-item">
+            <i class="fas fa-check-circle"></i>
+            Attempted: {{ attempted }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Results Section (shown after submission) -->
+      <div class="results-container" *ngIf="isSubmitted">
+        <div class="results-header">
+          <h2>🎉 Quiz Completed Successfully!</h2>
+          <p>Thank you for taking the quiz. Here are your results:</p>
+        </div>
+
+        <div class="results-cards">
+          <div class="result-card">
+            <div class="result-icon">✅</div>
+            <div class="result-info">
+              <h3>{{ correctAnswers }}</h3>
+              <p>Correct Answers</p>
+              <span class="result-detail"
+                >out of {{ attempted }} attempted</span
+              >
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-icon">🎯</div>
+            <div class="result-info">
+              <h3>{{ getAccuracy() }}%</h3>
+              <p>Accuracy</p>
+              <span class="result-detail"
+                >{{ correctAnswers }}/{{ attempted }} correct</span
+              >
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-icon">🏆</div>
+            <div class="result-info">
+              <h3>{{ getRoundedMarks() }}</h3>
+              <p>Marks Obtained</p>
+              <span class="result-detail"
+                >out of {{ questions[0].quiz.maxMarks }}</span
+              >
+            </div>
+          </div>
+
+          <div class="result-card">
+            <div class="result-icon">📝</div>
+            <div class="result-info">
+              <h3>{{ attempted }}</h3>
+              <p>Questions Attempted</p>
+              <span class="result-detail"
+                >out of {{ questions.length }} total</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button class="dashboard-btn" (click)="goToDashboard()">
+            <i class="fas fa-home"></i>
+            Go to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Questions Container (hidden after submission) -->
+      <div class="questions-container" *ngIf="!isSubmitted">
+        <div
+          class="question-card"
+          *ngFor="let question of questions; let i = index"
+        >
+          <div class="question-header">
+            <span class="question-number">Question {{ i + 1 }}</span>
+            <span
+              class="question-status"
+              [ngClass]="{ answered: question.givenAnswer }"
+            >
+              {{ question.givenAnswer ? "Answered" : "Not Answered" }}
+            </span>
+          </div>
+
+          <div class="question-content">
+            <h3>{{ question.content }}</h3>
+            <img
+              *ngIf="question.image"
+              [src]="question.image"
+              alt="Question Image"
+              class="question-image"
+            />
+          </div>
+
+          <div class="options-container">
+            <div
+              class="option"
+              *ngFor="
+                let option of [
+                  { key: 'option1', value: question.option1 },
+                  { key: 'option2', value: question.option2 },
+                  { key: 'option3', value: question.option3 },
+                  { key: 'option4', value: question.option4 }
+                ];
+                let optionIndex = index
+              "
+              [ngClass]="{ selected: question.givenAnswer === option.value }"
+              (click)="selectAnswer(question, option.value)"
+            >
+              <div class="option-radio">
+                <input
+                  type="radio"
+                  [name]="'question_' + i"
+                  [value]="option.value"
+                  [checked]="question.givenAnswer === option.value"
+                  (change)="selectAnswer(question, option.value)"
+                />
+                <span class="radio-custom"></span>
+              </div>
+
+              <div class="option-text">
+                <span class="option-label"
+                  >{{ ["A", "B", "C", "D"][optionIndex] }}.</span
+                >
+                <span class="option-content">{{ option.value }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Section (hidden after submission) -->
+      <div class="submit-section" *ngIf="!isSubmitted">
+        <div class="exam-summary">
+          <div class="summary-item">
+            <strong>Total Questions:</strong> {{ questions.length }}
+          </div>
+          <div class="summary-item">
+            <strong>Attempted:</strong> {{ attempted }}
+          </div>
+          <div class="summary-item">
+            <strong>Remaining:</strong> {{ questions.length - attempted }}
+          </div>
+        </div>
+
+        <button
+          class="submit-btn"
+          [disabled]="attempted === 0"
+          (click)="submitQuiz()"
+        >
+          <i class="fas fa-paper-plane"></i>
+          Submit Quiz
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Timer Sidebar -->
+    <div class="timer-sidebar" *ngIf="!isSubmitted">
+      <div class="timer-container">
+        <div class="timer-header">
+          <h3>⏰ Time Remaining</h3>
+        </div>
+
+        <div class="timer-display">
+          <mat-progress-spinner
+            [mode]="'determinate'"
+            [value]="getProgressValue()"
+            [diameter]="120"
+            [strokeWidth]="8"
+            [color]="'primary'"
+          >
+          </mat-progress-spinner>
+
+          <div class="timer-text">
+            <div class="time-digits" [style.color]="getTimeColor()">
+              {{ getFormattedTime() }}
+            </div>
+            <div class="time-label">Minutes : Seconds</div>
+          </div>
+        </div>
+
+        <div class="timer-stats">
+          <div class="stat-item">
+            <span class="stat-label">Progress</span>
+            <span class="stat-value">{{ getRoundedProgress() }}%</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Time</span>
+            <span class="stat-value">{{ getTotalTimeMinutes() }} min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="!questions">
+  <div class="loading-spinner">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Loading Questions...</p>
+  </div>
+</div>

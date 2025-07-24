@@ -1,0 +1,115 @@
+<mat-card class="registration-card">
+  <h2 style="text-align: center">Register here</h2>
+  <mat-card-content>
+    <!-- A reference to the form is created with #registrationForm="ngForm" -->
+    <form #registrationForm="ngForm" (ngSubmit)="onRegister(registrationForm)">
+      <div class="form-container">
+        <!-- User Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>User Name</mat-label>
+          <!-- Two-way data binding is done with [(ngModel)] -->
+          <input
+            matInput
+            name="username"
+            [(ngModel)]="registrationData.username"
+            required
+            #userName="ngModel"
+          />
+          <mat-hint>Username must be unique</mat-hint>
+          <mat-error *ngIf="userName.invalid && userName.touched"
+            >User Name is required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- User Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>User Password</mat-label>
+          <input
+            matInput
+            name="password"
+            [(ngModel)]="registrationData.password"
+            type="password"
+            placeholder="Enter here"
+            required
+            #password="ngModel"
+          />
+          <mat-error *ngIf="password.invalid && password.touched"
+            >Password is required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- First Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input
+            matInput
+            name="firstName"
+            [(ngModel)]="registrationData.firstName"
+          />
+        </mat-form-field>
+
+        <!-- Last Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            name="lastName"
+            [(ngModel)]="registrationData.lastName"
+          />
+        </mat-form-field>
+
+        <!-- Email Address -->
+        <mat-form-field appearance="outline">
+          <mat-label>Email Address</mat-label>
+          <input
+            matInput
+            name="email"
+            [(ngModel)]="registrationData.email"
+            type="email"
+            required
+            email
+            #email="ngModel"
+          />
+          <mat-error *ngIf="email.errors?.['required'] && email.touched"
+            >Email is required</mat-error
+          >
+          <mat-error *ngIf="email.errors?.['email'] && email.touched"
+            >Please enter a valid email</mat-error
+          >
+        </mat-form-field>
+
+        <!-- Phone Number -->
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input
+            matInput
+            name="phone"
+            [(ngModel)]="registrationData.phone"
+            type="tel"
+          />
+        </mat-form-field>
+
+        <!-- Buttons -->
+        <div class="button-row">
+          <!-- The button will be disabled if the form is not valid -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!registrationForm.valid"
+          >
+            Register
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            (click)="onClear(registrationForm)"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

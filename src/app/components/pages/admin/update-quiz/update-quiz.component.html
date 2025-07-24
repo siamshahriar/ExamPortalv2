@@ -1,0 +1,158 @@
+<div class="form-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Update Quiz</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+        <!-- Title Field -->
+        <mat-form-field appearance="outline" class="full-width">
+          <input
+            matInput
+            formControlName="title"
+            placeholder="Enter Title"
+            required
+          />
+          <mat-error
+            *ngIf="
+              form.get('title')?.hasError('required') &&
+              form.get('title')?.touched
+            "
+          >
+            Title is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Description Field -->
+        <mat-form-field
+          appearance="outline"
+          class="full-width description-field"
+        >
+          <textarea
+            matInput
+            formControlName="description"
+            placeholder="Enter Description"
+            rows="4"
+            required
+          >
+          </textarea>
+          <mat-error
+            *ngIf="
+              form.get('description')?.hasError('required') &&
+              form.get('description')?.touched
+            "
+          >
+            Description is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Maximum Marks and Number of Questions Row -->
+        <div class="two-column-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <input
+              matInput
+              type="text"
+              formControlName="maxMarks"
+              placeholder="Maximum Marks"
+              required
+            />
+            <mat-error
+              *ngIf="
+                form.get('maxMarks')?.hasError('required') &&
+                form.get('maxMarks')?.touched
+              "
+            >
+              Maximum marks is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                form.get('maxMarks')?.hasError('min') &&
+                form.get('maxMarks')?.touched
+              "
+            >
+              Must be at least 1
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <input
+              matInput
+              type="text"
+              formControlName="numberOfQuestions"
+              placeholder="Number of Question"
+              required
+            />
+            <mat-error
+              *ngIf="
+                form.get('numberOfQuestions')?.hasError('required') &&
+                form.get('numberOfQuestions')?.touched
+              "
+            >
+              Number of questions is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                form.get('numberOfQuestions')?.hasError('min') &&
+                form.get('numberOfQuestions')?.touched
+              "
+            >
+              Must be at least 1
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Publish Status and Categories Row -->
+        <div class="bottom-row">
+          <div class="publish-status-container">
+            <mat-slide-toggle formControlName="active" class="publish-toggle">
+            </mat-slide-toggle>
+            <span class="publish-label">Active Status</span>
+          </div>
+
+          <mat-form-field
+            appearance="outline"
+            class="categories-field"
+            *ngIf="categories && categories.length > 0"
+          >
+            <mat-select formControlName="category" placeholder="Categories">
+              <mat-option
+                *ngFor="let category of categories"
+                [value]="category.cid"
+              >
+                {{ category.title }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                form.get('category')?.hasError('required') &&
+                form.get('category')?.touched
+              "
+            >
+              Category is required
+            </mat-error>
+          </mat-form-field>
+
+          <div
+            *ngIf="!categories || categories.length === 0"
+            class="categories-field"
+          >
+            Loading categories...
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid"
+            class="submit-button"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

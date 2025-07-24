@@ -1,0 +1,250 @@
+<div class="add-question-container">
+  <!-- Header Section -->
+  <mat-toolbar color="primary" class="quiz-header">
+    <mat-icon>add_circle</mat-icon>
+    <span class="header-title">Add Question</span>
+    <span class="spacer"></span>
+    <mat-chip color="accent" selected>
+      <mat-icon matChipAvatar>quiz</mat-icon>
+      {{ qTitle || "Quiz" }}
+    </mat-chip>
+  </mat-toolbar>
+
+  <!-- Main Form Card -->
+  <mat-card class="form-card">
+    <mat-card-header>
+      <div mat-card-avatar class="form-avatar">
+        <mat-icon>help</mat-icon>
+      </div>
+      <mat-card-title>Create New Question</mat-card-title>
+      <mat-card-subtitle
+        >Fill in the details to add a new question to this
+        quiz</mat-card-subtitle
+      >
+    </mat-card-header>
+
+    <mat-card-content>
+      <form #questionForm="ngForm" class="question-form">
+        <!-- Question Content -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Question Content</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="question.content"
+            name="content"
+            placeholder="Enter your question here..."
+            rows="3"
+            required
+          >
+          </textarea>
+          <mat-icon matSuffix>help_outline</mat-icon>
+          <mat-hint>Write a clear and concise question</mat-hint>
+        </mat-form-field>
+
+        <!-- Question Image -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Image (Optional)</mat-label>
+          <input
+            matInput
+            [(ngModel)]="question.image"
+            name="image"
+            placeholder="e.g., java.png"
+          />
+          <mat-icon matSuffix>image</mat-icon>
+          <mat-hint
+            >Enter image filename if question includes an image</mat-hint
+          >
+        </mat-form-field>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Options Section -->
+        <div class="options-section">
+          <h3 class="section-title">
+            <mat-icon>list</mat-icon>
+            Answer Options
+          </h3>
+
+          <div class="options-grid">
+            <!-- Option 1 -->
+            <mat-form-field appearance="outline">
+              <mat-label>Option A</mat-label>
+              <input
+                matInput
+                [(ngModel)]="question.option1"
+                name="option1"
+                placeholder="Enter option A"
+                required
+              />
+              <mat-icon matSuffix>looks_one</mat-icon>
+            </mat-form-field>
+
+            <!-- Option 2 -->
+            <mat-form-field appearance="outline">
+              <mat-label>Option B</mat-label>
+              <input
+                matInput
+                [(ngModel)]="question.option2"
+                name="option2"
+                placeholder="Enter option B"
+                required
+              />
+              <mat-icon matSuffix>looks_two</mat-icon>
+            </mat-form-field>
+
+            <!-- Option 3 -->
+            <mat-form-field appearance="outline">
+              <mat-label>Option C</mat-label>
+              <input
+                matInput
+                [(ngModel)]="question.option3"
+                name="option3"
+                placeholder="Enter option C"
+                required
+              />
+              <mat-icon matSuffix>looks_3</mat-icon>
+            </mat-form-field>
+
+            <!-- Option 4 -->
+            <mat-form-field appearance="outline">
+              <mat-label>Option D</mat-label>
+              <input
+                matInput
+                [(ngModel)]="question.option4"
+                name="option4"
+                placeholder="Enter option D"
+                required
+              />
+              <mat-icon matSuffix>looks_4</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Correct Answer Selection -->
+        <div class="answer-section">
+          <h3 class="section-title">
+            <mat-icon>check_circle</mat-icon>
+            Correct Answer
+          </h3>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Select Correct Answer</mat-label>
+            <mat-select [(ngModel)]="question.answer" name="answer" required>
+              <mat-option
+                *ngFor="let option of getAvailableOptions()"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>verified</mat-icon>
+            <mat-hint
+              >Choose the correct answer from the options above</mat-hint
+            >
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end" class="form-actions">
+      <button mat-button color="warn" type="button">
+        <mat-icon>clear</mat-icon>
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!isFormValid()"
+        (click)="onSubmit()"
+      >
+        <mat-icon>save</mat-icon>
+        Save Question
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Preview Card -->
+  <mat-card class="preview-card" *ngIf="question.content">
+    <mat-card-header>
+      <div mat-card-avatar class="preview-avatar">
+        <mat-icon>preview</mat-icon>
+      </div>
+      <mat-card-title>Question Preview</mat-card-title>
+      <mat-card-subtitle>How your question will appear</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="preview-content">
+        <h4>{{ question.content }}</h4>
+
+        <div
+          class="preview-options"
+          *ngIf="
+            question.option1 ||
+            question.option2 ||
+            question.option3 ||
+            question.option4
+          "
+        >
+          <div
+            class="preview-option"
+            *ngIf="question.option1"
+            [class.correct-preview]="question.answer === question.option1"
+          >
+            <span class="option-letter">A</span>
+            <span class="option-text">{{ question.option1 }}</span>
+            <mat-icon
+              *ngIf="question.answer === question.option1"
+              class="correct-icon"
+              >check_circle</mat-icon
+            >
+          </div>
+
+          <div
+            class="preview-option"
+            *ngIf="question.option2"
+            [class.correct-preview]="question.answer === question.option2"
+          >
+            <span class="option-letter">B</span>
+            <span class="option-text">{{ question.option2 }}</span>
+            <mat-icon
+              *ngIf="question.answer === question.option2"
+              class="correct-icon"
+              >check_circle</mat-icon
+            >
+          </div>
+
+          <div
+            class="preview-option"
+            *ngIf="question.option3"
+            [class.correct-preview]="question.answer === question.option3"
+          >
+            <span class="option-letter">C</span>
+            <span class="option-text">{{ question.option3 }}</span>
+            <mat-icon
+              *ngIf="question.answer === question.option3"
+              class="correct-icon"
+              >check_circle</mat-icon
+            >
+          </div>
+
+          <div
+            class="preview-option"
+            *ngIf="question.option4"
+            [class.correct-preview]="question.answer === question.option4"
+          >
+            <span class="option-letter">D</span>
+            <span class="option-text">{{ question.option4 }}</span>
+            <mat-icon
+              *ngIf="question.answer === question.option4"
+              class="correct-icon"
+              >check_circle</mat-icon
+            >
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

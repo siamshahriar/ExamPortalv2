@@ -73,6 +73,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Get the profile route based on user role
+  getProfileRoute(): string {
+    const userRole = this.loginService.getUserRole();
+    if (userRole === 'ADMIN') {
+      return '/admin';
+    } else if (userRole === 'NORMAL') {
+      return '/user-dashboard/0';
+    }
+    return '/'; // fallback to home
+  }
+
   logout() {
     this.loginService.logout();
     this.updateAuthState();

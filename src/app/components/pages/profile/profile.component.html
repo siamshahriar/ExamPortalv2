@@ -1,0 +1,105 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <!-- Header Section -->
+    <mat-card-header class="profile-header">
+      <mat-card-title class="profile-title"
+        >Your Profile Details</mat-card-title
+      >
+    </mat-card-header>
+
+    <mat-card-content class="profile-content">
+      <!-- Show content only if user data is available -->
+      <div *ngIf="user; else noUserData">
+        <!-- Avatar Section -->
+        <div class="avatar-section">
+          <div class="avatar-container">
+            <img
+              src="https://dummyjson.com/icon/emilys/128"
+              [alt]="getFullName()"
+              class="profile-avatar"
+            />
+          </div>
+        </div>
+
+        <!-- Name Section -->
+        <div class="name-section">
+          <h2 class="profile-name">{{ getFullName() }}</h2>
+        </div>
+
+        <!-- Profile Details Table -->
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" class="profile-table">
+            <!-- Field Column -->
+            <ng-container matColumnDef="field">
+              <th mat-header-cell *matHeaderCellDef class="field-header">
+                Field
+              </th>
+              <td mat-cell *matCellDef="let element" class="field-cell">
+                {{ element.field }}
+              </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+              <th mat-header-cell *matHeaderCellDef class="value-header">
+                Value
+              </th>
+              <td mat-cell *matCellDef="let element" class="value-cell">
+                <span
+                  [class.status-active]="
+                    element.field === 'Status' && element.value === 'ACTIVE'
+                  "
+                  [class.status-inactive]="
+                    element.field === 'Status' && element.value === 'INACTIVE'
+                  "
+                  [class.role-admin]="
+                    element.field === 'Role' && element.value === 'ADMIN'
+                  "
+                >
+                  {{ element.value }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns"
+              class="table-header-row"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              class="table-row"
+            ></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- No user data template -->
+      <ng-template #noUserData>
+        <div class="no-data">
+          <p>No user data available. Please log in again.</p>
+        </div>
+      </ng-template>
+    </mat-card-content>
+
+    <!-- Action Buttons -->
+    <mat-card-actions class="profile-actions" *ngIf="user">
+      <button
+        mat-raised-button
+        color="primary"
+        class="action-button update-button"
+        (click)="onUpdate()"
+      >
+        UPDATE
+      </button>
+      <button
+        mat-raised-button
+        class="action-button share-button"
+        (click)="onShare()"
+      >
+        SHARE
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

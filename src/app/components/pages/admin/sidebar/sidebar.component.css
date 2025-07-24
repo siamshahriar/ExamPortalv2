@@ -1,0 +1,18 @@
+::ng-deep button[mat-list-item] {
+  display: flex !important;
+  align-items: center !important;
+  height: 48px !important;
+}
+
+::ng-deep button[mat-list-item] .mdc-list-item__content {
+  display: flex !important;
+  align-items: center !important;
+  flex-direction: row !important;
+}
+
+::ng-deep mat-icon[mat-list-icon] {
+  margin-right: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}

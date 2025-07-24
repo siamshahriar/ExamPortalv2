@@ -1,0 +1,122 @@
+<div class="quiz-container">
+  <!-- Header Section with Material Design -->
+  <div class="header-section">
+    <h1 class="main-title">
+      <mat-icon class="title-icon">quiz</mat-icon>
+      Available Quizzes
+      <span
+        class="quiz-count"
+        *ngIf="quizzes"
+        matBadge="{{ quizzes.length }}"
+        matBadgeColor="accent"
+      >
+      </span>
+    </h1>
+    <p class="subtitle">
+      Discover and take exciting quizzes to test your knowledge
+    </p>
+  </div>
+
+  <!-- Loading State with Material Spinner -->
+  <div *ngIf="!quizzes" class="loading-container">
+    <mat-spinner diameter="60"></mat-spinner>
+    <p class="loading-text">Loading awesome quizzes...</p>
+  </div>
+
+  <!-- No Quizzes Available -->
+  <div *ngIf="quizzes && quizzes.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">quiz_outlined</mat-icon>
+    <h2>No Quizzes Available</h2>
+    <p>There are currently no quizzes available in this category.</p>
+  </div>
+
+  <!-- Quiz Cards Grid -->
+  <div *ngIf="quizzes && quizzes.length > 0" class="quiz-grid">
+    <mat-card
+      class="quiz-card"
+      *ngFor="let quiz of quizzes"
+      [class.inactive-quiz]="!quiz.active"
+    >
+      <!-- Quiz Status Chip -->
+      <div class="status-chip">
+        <mat-chip-set>
+          <mat-chip
+            [class]="quiz.active ? 'active-chip' : 'inactive-chip'"
+            [matTooltip]="
+              quiz.active
+                ? 'This quiz is active and ready to take'
+                : 'This quiz is currently inactive'
+            "
+          >
+            <mat-icon matChipAvatar>{{
+              quiz.active ? "check_circle" : "pause_circle"
+            }}</mat-icon>
+            {{ quiz.active ? "Active" : "Inactive" }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <!-- Card Header -->
+      <mat-card-header class="quiz-header">
+        <div mat-card-avatar class="quiz-avatar">
+          <mat-icon>school</mat-icon>
+        </div>
+        <mat-card-title class="quiz-title">{{ quiz.title }}</mat-card-title>
+        <mat-card-subtitle class="category-subtitle">
+          <mat-icon class="category-icon">category</mat-icon>
+          {{ quiz.category.title }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <!-- Card Content -->
+      <mat-card-content class="quiz-content">
+        <p class="quiz-description">{{ quiz.description }}</p>
+
+        <mat-divider></mat-divider>
+
+        <!-- Quiz Statistics -->
+        <div class="quiz-stats">
+          <div class="stat-item">
+            <mat-icon class="stat-icon questions-icon">help_outline</mat-icon>
+            <div class="stat-content">
+              <span class="stat-number">{{ quiz.numberOfQuestions }}</span>
+              <span class="stat-label">Questions</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <mat-icon class="stat-icon marks-icon">star_rate</mat-icon>
+            <div class="stat-content">
+              <span class="stat-number">{{ quiz.maxMarks }}</span>
+              <span class="stat-label">Max Marks</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <!-- Card Actions -->
+      <mat-card-actions class="quiz-actions">
+        <button mat-stroked-button color="primary" class="action-btn">
+          <mat-icon>visibility</mat-icon>
+          View Details
+        </button>
+
+        <button
+          mat-raised-button
+          [color]="quiz.active ? 'accent' : 'warn'"
+          [disabled]="!quiz.active"
+          class="action-btn start-btn"
+          [routerLink]="['/user-dashboard/instructions', quiz.qId]"
+          [matTooltip]="
+            !quiz.active
+              ? 'Quiz is currently inactive'
+              : 'Start taking this quiz'
+          "
+        >
+          <mat-icon>{{ quiz.active ? "play_arrow" : "block" }}</mat-icon>
+          {{ quiz.active ? "Start Quiz" : "Unavailable" }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

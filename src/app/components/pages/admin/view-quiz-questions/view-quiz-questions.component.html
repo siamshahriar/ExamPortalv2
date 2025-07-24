@@ -1,0 +1,179 @@
+<div class="quiz-questions-container">
+  <!-- Header Section -->
+  <mat-toolbar color="primary" class="quiz-header">
+    <mat-icon>quiz</mat-icon>
+    <span class="quiz-title">{{ qTitle }}</span>
+    <span class="spacer"></span>
+    <mat-chip-set>
+      <mat-chip>
+        <mat-icon matChipAvatar>assignment</mat-icon>
+        Quiz ID: {{ qId }}
+      </mat-chip>
+      <mat-chip *ngIf="questions.length > 0">
+        <mat-icon matChipAvatar>help</mat-icon>
+        {{ questions.length }} Questions
+      </mat-chip>
+    </mat-chip-set>
+    <button
+      mat-raised-button
+      color="accent"
+      class="add-question-btn"
+      [routerLink]="['/admin/add-question/', qId, qTitle]"
+    >
+      <mat-icon>add</mat-icon>
+      Add Question
+    </button>
+  </mat-toolbar>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading questions...</p>
+  </div>
+
+  <!-- Questions List -->
+  <div *ngIf="!loading && questions.length > 0" class="questions-container">
+    <mat-card
+      *ngFor="let question of questions; let i = index"
+      class="question-card"
+    >
+      <mat-card-header>
+        <div mat-card-avatar class="question-avatar">
+          {{ i + 1 }}
+        </div>
+        <mat-card-title class="question-title">
+          Question {{ i + 1 }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          <mat-chip color="accent" selected>
+            <mat-icon>category</mat-icon>
+            {{ question.quiz?.category?.title || "General" }}
+          </mat-chip>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Question Content -->
+        <div class="question-content">
+          <h3>{{ question.content }}</h3>
+
+          <!-- Question Image (if exists) -->
+          <div *ngIf="question.image" class="question-image">
+            <img
+              [src]="'assets/images/' + question.image"
+              [alt]="question.content"
+            />
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Options -->
+        <div class="options-container">
+          <h4>Options:</h4>
+          <div class="options-grid">
+            <div
+              class="option-item"
+              [class.correct-option]="
+                isCorrectOption(question, question.option1)
+              "
+            >
+              <div class="option-label">{{ getOptionLetter(0) }}</div>
+              <div class="option-text">{{ question.option1 }}</div>
+              <mat-icon
+                *ngIf="isCorrectOption(question, question.option1)"
+                class="correct-icon"
+                >check_circle</mat-icon
+              >
+            </div>
+
+            <div
+              class="option-item"
+              [class.correct-option]="
+                isCorrectOption(question, question.option2)
+              "
+            >
+              <div class="option-label">{{ getOptionLetter(1) }}</div>
+              <div class="option-text">{{ question.option2 }}</div>
+              <mat-icon
+                *ngIf="isCorrectOption(question, question.option2)"
+                class="correct-icon"
+                >check_circle</mat-icon
+              >
+            </div>
+
+            <div
+              class="option-item"
+              [class.correct-option]="
+                isCorrectOption(question, question.option3)
+              "
+            >
+              <div class="option-label">{{ getOptionLetter(2) }}</div>
+              <div class="option-text">{{ question.option3 }}</div>
+              <mat-icon
+                *ngIf="isCorrectOption(question, question.option3)"
+                class="correct-icon"
+                >check_circle</mat-icon
+              >
+            </div>
+
+            <div
+              class="option-item"
+              [class.correct-option]="
+                isCorrectOption(question, question.option4)
+              "
+            >
+              <div class="option-label">{{ getOptionLetter(3) }}</div>
+              <div class="option-text">{{ question.option4 }}</div>
+              <mat-icon
+                *ngIf="isCorrectOption(question, question.option4)"
+                class="correct-icon"
+                >check_circle</mat-icon
+              >
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Correct Answer -->
+        <div class="correct-answer">
+          <mat-chip color="primary" selected>
+            <mat-icon>check</mat-icon>
+            Correct Answer: {{ question.answer }}
+          </mat-chip>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button color="primary">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-button color="warn" (click)="deleteQuestion(question.quesId)">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- No Questions Message -->
+  <div *ngIf="!loading && questions.length === 0" class="no-questions">
+    <mat-card class="empty-state">
+      <mat-card-content class="empty-content">
+        <mat-icon class="empty-icon">help_outline</mat-icon>
+        <h2>No Questions Found</h2>
+        <p>This quiz doesn't have any questions yet.</p>
+        <button
+          [routerLink]="['/admin/add-question/', qId, qTitle]"
+          mat-raised-button
+          color="primary"
+        >
+          <mat-icon>add</mat-icon>
+          Add Questions
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

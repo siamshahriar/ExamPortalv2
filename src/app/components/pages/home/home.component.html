@@ -1,0 +1,134 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Welcome to ExamPortal</h1>
+    <p class="hero-subtitle">Test Your Knowledge with Interactive Quizzes</p>
+    <p class="hero-description">
+      Join thousands of students and professionals who trust ExamPortal for
+      their learning journey. Take quizzes, track your progress, and improve
+      your skills.
+    </p>
+    <div class="hero-buttons" *ngIf="!isLoggedIn">
+      <button class="btn btn-primary" routerLink="/signup">Get Started</button>
+      <button class="btn btn-secondary" routerLink="/login">Login</button>
+    </div>
+    <div class="hero-buttons" *ngIf="isLoggedIn">
+      <button class="btn btn-primary" routerLink="/user/user-dashboard">
+        Go to Dashboard
+      </button>
+      <button class="btn btn-secondary" routerLink="/profile">
+        View Profile
+      </button>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="quiz-illustration">
+      <div class="quiz-card">
+        <div class="quiz-header">📝</div>
+        <div class="quiz-body">
+          <div class="quiz-question">Sample Quiz Question?</div>
+          <div class="quiz-options">
+            <div class="option">A) Option 1</div>
+            <div class="option">B) Option 2</div>
+            <div class="option active">C) Option 3</div>
+            <div class="option">D) Option 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <h2 class="section-title">Why Choose ExamPortal?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Interactive Quizzes</h3>
+        <p>
+          Engage with dynamic, well-crafted quizzes designed to test and improve
+          your knowledge effectively.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Progress Tracking</h3>
+        <p>
+          Monitor your learning journey with detailed analytics and performance
+          insights.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>
+          Get immediate feedback on your answers with detailed explanations and
+          scoring.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>Achievements</h3>
+        <p>
+          Earn badges and certificates as you complete quizzes and reach
+          milestones.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">1000+</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Quizzes Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Ready to Start Your Learning Journey?</h2>
+      <p>
+        Join ExamPortal today and discover a new way to learn and test your
+        knowledge.
+      </p>
+      <div class="cta-buttons" *ngIf="!isLoggedIn">
+        <button class="btn btn-primary large" routerLink="/signup">
+          Create Account
+        </button>
+        <button class="btn btn-outline large" routerLink="/login">
+          Sign In
+        </button>
+      </div>
+      <div class="cta-buttons" *ngIf="isLoggedIn">
+        <button class="btn btn-primary large" routerLink="/user/user-dashboard">
+          Go to Dashboard
+        </button>
+        <button class="btn btn-outline large" routerLink="/profile">
+          View Profile
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+<mat-card class="login-card">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <!-- A reference to the form is created with #loginForm="ngForm" -->
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+      <div class="form-container">
+        <!-- User Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>User Name</mat-label>
+          <!-- Two-way data binding with [(ngModel)] -->
+          <input
+            matInput
+            name="username"
+            [(ngModel)]="loginData.username"
+            required
+            #username="ngModel"
+          />
+          <mat-error *ngIf="username.invalid && username.touched"
+            >User Name is required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            name="password"
+            [(ngModel)]="loginData.password"
+            type="password"
+            required
+            #password="ngModel"
+          />
+          <mat-error *ngIf="password.invalid && password.touched"
+            >Password is required</mat-error
+          >
+        </mat-form-field>
+
+        <!-- Login Button -->
+        <div class="button-row">
+          <!-- The button will be disabled if the form is not valid -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!loginForm.valid"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
